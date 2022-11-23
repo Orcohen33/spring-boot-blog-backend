@@ -1,4 +1,4 @@
-package com.orcohen.blogrestapi.security;
+package com.orcohen.blogrestapi.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

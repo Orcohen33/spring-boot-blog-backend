@@ -1,7 +1,6 @@
 package com.orcohen.blogrestapi.service.impl;
 
-import com.orcohen.blogrestapi.dto.PostRequest;
-import com.orcohen.blogrestapi.dto.PostResponse;
+import com.orcohen.blogrestapi.payload.*;
 import com.orcohen.blogrestapi.entity.Post;
 import com.orcohen.blogrestapi.repository.PostRepository;
 import org.junit.jupiter.api.BeforeEach;

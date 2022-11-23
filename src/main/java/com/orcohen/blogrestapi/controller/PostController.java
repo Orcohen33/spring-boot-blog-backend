@@ -1,10 +1,8 @@
 package com.orcohen.blogrestapi.controller;
 
-import com.orcohen.blogrestapi.dto.PostPageResponse;
-import com.orcohen.blogrestapi.dto.PostRequest;
-import com.orcohen.blogrestapi.dto.PostResponse;
-import com.orcohen.blogrestapi.service.PostService;
-import com.orcohen.blogrestapi.utils.AppConstants;
+import com.orcohen.blogrestapi.payload.*;
+import com.orcohen.blogrestapi.utils.*;
+import com.orcohen.blogrestapi.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +26,7 @@ public class PostController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PostPageResponse> getAllPosts(
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,

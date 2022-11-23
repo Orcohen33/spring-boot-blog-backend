@@ -1,7 +1,7 @@
 package com.orcohen.blogrestapi.controller;
 
-import com.orcohen.blogrestapi.dto.CommentRequest;
-import com.orcohen.blogrestapi.dto.CommentResponse;
+import com.orcohen.blogrestapi.payload.CommentRequest;
+import com.orcohen.blogrestapi.payload.CommentResponse;
 import com.orcohen.blogrestapi.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
