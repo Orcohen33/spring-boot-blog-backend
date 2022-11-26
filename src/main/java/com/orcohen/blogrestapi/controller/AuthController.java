@@ -6,18 +6,17 @@ import com.orcohen.blogrestapi.exception.ResourceNotFoundException;
 import com.orcohen.blogrestapi.payload.SignInRequest;
 import com.orcohen.blogrestapi.payload.SignUpRequest;
 import com.orcohen.blogrestapi.repository.RoleRepository;
-import com.orcohen.blogrestapi.repository.UserRepository;
-import com.orcohen.blogrestapi.config.PasswordConfig;
+import com.orcohen.blogrestapi.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -29,21 +28,25 @@ public class AuthController {
 
 
     private final AuthenticationManager authenticationManager;
-    private final UserRepository userRepository;
-
+    private final UserService userService;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    private final PasswordConfig passwordConfig;
     @Autowired
     public AuthController(AuthenticationManager authenticationManager,
-                          UserRepository userRepository,
+                          UserService userService,
                           RoleRepository roleRepository,
-                          PasswordConfig passwordConfig) {
+                          PasswordEncoder passwordEncoder) {
         this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
+        this.userService = userService;
         this.roleRepository = roleRepository;
-        this.passwordConfig = passwordConfig;
+        this.passwordEncoder = passwordEncoder;
     }
+
+
+
+
+
 
     @PostMapping("/signin")
     public ResponseEntity<String> authenticateUser(@RequestBody SignInRequest signInRequest) {
@@ -64,16 +67,13 @@ public class AuthController {
         return ResponseEntity.ok("Logged in successfully");
     }
 
-//  ("admin:post:read")
-    @PostMapping(value = "/signup",
-                consumes = MediaType.APPLICATION_JSON_VALUE
-                )
+    @PostMapping(value = "/signup")
     public ResponseEntity<?> signup(@RequestBody SignUpRequest signUpRequest) {
         log.info("================================Logging register================================");
-        if(userRepository.existsByUsername(signUpRequest.getUsername())) {
+        if(userService.isUserExistByUsername(signUpRequest.getUsername())) {
             return new ResponseEntity<>("Username is already taken!", HttpStatus.BAD_REQUEST);
         }
-        if(userRepository.existsByEmail(signUpRequest.getEmail())) {
+        if(userService.isUserExistByEmail(signUpRequest.getEmail())) {
             return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
         }
 
@@ -82,13 +82,13 @@ public class AuthController {
                 .name(signUpRequest.getName())
                 .username(signUpRequest.getUsername())
                 .email(signUpRequest.getEmail())
-                .password(passwordConfig.passwordEncoder().encode(signUpRequest.getPassword()))
+                .password(passwordEncoder.encode(signUpRequest.getPassword()))
                 .build();
 
         Role userRole = roleRepository.findByName("USER")
                 .orElseThrow(() -> new ResourceNotFoundException("Role", "name", "USER"));
         user.setRoles(Collections.singleton(userRole));
-        userRepository.save(user);
+        userService.saveUser(user);
 
         log.info("User registered successfully!");
 

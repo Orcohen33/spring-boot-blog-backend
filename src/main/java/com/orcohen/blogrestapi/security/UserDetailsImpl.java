@@ -20,15 +20,11 @@ public class UserDetailsImpl implements UserDetails {
     // This class is used to wrap the User object and provide the UserDetails interface
     private final User user;
 
-
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        var roles =  user.getRoles().stream()
+        return user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
                 .toList();
-        log.info("[UserDetailsImpl] User roles: {}", roles.toString());
-        return roles;
     }
 
     @Override

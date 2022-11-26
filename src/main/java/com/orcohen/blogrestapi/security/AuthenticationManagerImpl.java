@@ -1,8 +1,5 @@
 package com.orcohen.blogrestapi.security;
 
-import com.orcohen.blogrestapi.entity.User;
-import com.orcohen.blogrestapi.repository.UserRepository;
-import com.orcohen.blogrestapi.config.PasswordConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,13 +21,13 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
 
 
     private final UserDetailsService userDetailsService;
-    private final PasswordConfig passwordConfig;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public AuthenticationManagerImpl(UserDetailsService userDetailsService,
-                                     PasswordConfig passwordConfig) {
+                                     PasswordEncoder passwordEncoder) {
         this.userDetailsService = userDetailsService;
-        this.passwordConfig = passwordConfig;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -43,11 +41,10 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
             throw new UsernameNotFoundException("User not found with username or email : " + usernameOrEmail);
         }
 
-        if(!passwordConfig.passwordEncoder().matches(password, user.getPassword())) {
+        if(!passwordEncoder.matches(password, user.getPassword())) {
             log.info("[AuthenticationManager] Authentication password failed for user : {}", usernameOrEmail);
             throw new UsernameNotFoundException("User not found with username or email : " + usernameOrEmail);
         }
-
         return new UsernamePasswordAuthenticationToken(usernameOrEmail, password, user.getAuthorities());
     }
 

@@ -1,16 +1,27 @@
 package com.orcohen.blogrestapi.config;
 
-import com.orcohen.blogrestapi.security.AuthenticationManagerImpl;
-import com.orcohen.blogrestapi.security.UserDetailsServiceImpl;
+import com.nimbusds.jose.jwk.JWK;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
+import com.nimbusds.jose.jwk.source.JWKSource;
+import com.nimbusds.jose.proc.SecurityContext;
+import com.orcohen.blogrestapi.utils.RsaKeyProperties;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -19,59 +30,70 @@ import org.springframework.security.web.SecurityFilterChain;
 @Slf4j
 public class SecurityConfig {
 
-    private final UserDetailsService userDetailsService;
-    //    private final AbstractUserDetailsAuthProviderImpl abstractUserDetailsAuthProvider;
-    private final AuthenticationManager authenticationManager;
+    private final RsaKeyProperties rsaKeys;
 
 
-    @Autowired
-    public SecurityConfig(UserDetailsServiceImpl applicationUserService,
-//                          AbstractUserDetailsAuthProviderImpl abstractUserDetailsAuthProvider,
-                          AuthenticationManagerImpl authenticationManager) {
-        this.userDetailsService = applicationUserService;
-//        this.abstractUserDetailsAuthProvider = abstractUserDetailsAuthProvider;
-        this.authenticationManager = authenticationManager;
+    public SecurityConfig(RsaKeyProperties rsaKeys) {
+        this.rsaKeys = rsaKeys;
     }
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf().disable() // <--- disables csrf
+                // Disable CSRF
+                .csrf(AbstractHttpConfigurer::disable)
+                // Custom Authentication
                 .authorizeRequests(auth -> auth
-                        .antMatchers("/api/v1/auth/**").permitAll()
-                        .anyRequest().authenticated()
+                                .antMatchers("/token").permitAll()
+                                .antMatchers(
+                                        "/v3/api-docs/**",
+                                        "/swagger-ui/**",
+                                        "/swagger-ui.html",
+                                        "/api/swagger-ui/**").permitAll()
+                                .anyRequest().authenticated()
                 )
-                .httpBasic()
-                .and()
-                .authenticationManager(authenticationManager)   // <--- sets the authentication manager
-//                .authenticationProvider(abstractUserDetailsAuthProvider) // <--- sets the authentication provider
-                .userDetailsService(userDetailsService)// <--- sets the user details service
+                // Custom JWT
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+                // Disable session creation
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                // Exception handling
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            log.error("Authentication failed test", authException);
+                            log.info("Authentication failed test", authException);
+                            response.sendError(401, "Authentication failed test change");
+                        })
+                )
                 .build();
     }
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        return http
-////                .authenticationProvider(abstractUserDetailsAuthProvider) // <--- sets the authentication provider
-//                .csrf().disable() // <--- disables csrf
-//                .authorizeRequests(auth -> auth
-//                        .antMatchers("/api/v1/auth/**").permitAll()
-//                        .anyRequest().authenticated()
-//                )
-////                .formLogin()
-////                    .loginPage("/login")
-////                    .permitAll()
-////                    .loginProcessingUrl("/api/v1/auth/signin")
-////                    .defaultSuccessUrl("/post", true)
-////                .and()
-//                .logout()
-//                    .logoutUrl("/api/v1/auth/logouts")
-//                    .logoutSuccessUrl("/api/v1/auth/logout-success")
-//                .and()
-//                .authenticationManager(authenticationManager)   // <--- sets the authentication manager
-//                .authenticationProvider(daoAuthenticationProvider()) // <--- sets the authentication provider
-//                .userDetailsService(userDetailsService)// <--- sets the user details service
-//                .build();
-//    }
 
 
+    // JWT Decoder Bean
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        return NimbusJwtDecoder.withPublicKey(rsaKeys.publicKey()).build();
+    }
+
+    // JWT Encoder Bean
+    @Bean
+    public JwtEncoder jwtEncoder() {
+        // Create RSA-signer with the private key
+        JWK jwk = new RSAKey
+                .Builder(rsaKeys.publicKey())
+                .privateKey(rsaKeys.privateKey())
+                .build();
+        // Create JWK set
+        JWKSource<SecurityContext> jwkSource = new ImmutableJWKSet<>(new JWKSet(jwk));
+        // Create JWT encoder
+        return new NimbusJwtEncoder(jwkSource);
+    }
+
+    // Password encoder
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(10);
+    }
 }
