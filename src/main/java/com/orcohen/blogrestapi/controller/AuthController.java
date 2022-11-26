@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 
 @RestController
-@RequestMapping("api/v1/auth")
+@RequestMapping("api/v2/auth")
 @Slf4j
 public class AuthController {
 

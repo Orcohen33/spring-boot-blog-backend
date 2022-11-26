@@ -45,12 +45,13 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 // Custom Authentication
                 .authorizeRequests(auth -> auth
-                                .antMatchers("/token").permitAll()
+                                .antMatchers("/api/v1/auth/signin", "/api/v1/auth/signup").permitAll()
                                 .antMatchers(
-                                        "/v3/api-docs/**",
+                                        "/v2/api-docs/**",
                                         "/swagger-ui/**",
-                                        "/swagger-ui.html",
-                                        "/api/swagger-ui/**").permitAll()
+                                        "/swagger-ui.html/**",
+                                        "/swagger-resources/**",
+                                        "/webjars/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 // Custom JWT

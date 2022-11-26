@@ -6,8 +6,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableConfigurationProperties(RsaKeyProperties.class)
+@EnableWebMvc
+//@EnableSwagger2
 @SpringBootApplication
 public class BlogRestApiApplication {
 
@@ -19,21 +23,4 @@ public class BlogRestApiApplication {
         SpringApplication.run(BlogRestApiApplication.class, args);
     }
 
-//    Swagger bean
-//    @Bean
-//    public DocumentationPluginsBootstrapper swaggerBean() {
-//        return new DocumentationPluginsBootstrapper(new Docket(DocumentationType.SWAGGER_2)
-//                .select()
-//                .apis(RequestHandlerSelectors.basePackage("com.orcohen.blogrestapi"))
-//                .paths(PathSelectors.any())
-//                .build());
-//    }
-//    @Bean
-//    public Docket api() {
-//        return new Docket(DocumentationType.SWAGGER_2)
-//                .select()
-//                .apis(RequestHandlerSelectors.basePackage("com.orcohen.blogrestapi.controller"))
-//                .paths(PathSelectors.any())
-//                .build();
-//    }
 }
