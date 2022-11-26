@@ -1,6 +1,6 @@
 package com.orcohen.blogrestapi.exception;
 
-import com.orcohen.blogrestapi.dto.ErrorDetails;
+import com.orcohen.blogrestapi.payload.ErrorDetails;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,4 +46,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         });
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
+
+
 }

@@ -1,8 +1,8 @@
 package com.orcohen.blogrestapi.service;
 
-import com.orcohen.blogrestapi.dto.PostPageResponse;
-import com.orcohen.blogrestapi.dto.PostRequest;
-import com.orcohen.blogrestapi.dto.PostResponse;
+import com.orcohen.blogrestapi.payload.PostPageResponse;
+import com.orcohen.blogrestapi.payload.PostRequest;
+import com.orcohen.blogrestapi.payload.PostResponse;
 public interface PostService {
     PostResponse createPost(PostRequest postRequest);
 

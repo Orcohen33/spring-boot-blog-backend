@@ -1,7 +1,7 @@
 package com.orcohen.blogrestapi.service.impl;
 
-import com.orcohen.blogrestapi.dto.CommentRequest;
-import com.orcohen.blogrestapi.dto.CommentResponse;
+import com.orcohen.blogrestapi.payload.CommentRequest;
+import com.orcohen.blogrestapi.payload.CommentResponse;
 import com.orcohen.blogrestapi.entity.Comment;
 import com.orcohen.blogrestapi.entity.Post;
 import com.orcohen.blogrestapi.exception.ResourceNotFoundException;

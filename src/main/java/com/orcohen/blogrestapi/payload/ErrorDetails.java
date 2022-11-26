@@ -1,4 +1,4 @@
-package com.orcohen.blogrestapi.dto;
+package com.orcohen.blogrestapi.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

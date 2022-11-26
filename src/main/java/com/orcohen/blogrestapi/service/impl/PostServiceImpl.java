@@ -1,8 +1,8 @@
 package com.orcohen.blogrestapi.service.impl;
 
-import com.orcohen.blogrestapi.dto.PostPageResponse;
-import com.orcohen.blogrestapi.dto.PostRequest;
-import com.orcohen.blogrestapi.dto.PostResponse;
+import com.orcohen.blogrestapi.payload.PostPageResponse;
+import com.orcohen.blogrestapi.payload.PostRequest;
+import com.orcohen.blogrestapi.payload.PostResponse;
 import com.orcohen.blogrestapi.entity.Post;
 import com.orcohen.blogrestapi.exception.ResourceNotFoundException;
 import com.orcohen.blogrestapi.repository.PostRepository;

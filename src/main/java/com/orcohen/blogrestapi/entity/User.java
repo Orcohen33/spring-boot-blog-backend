@@ -1,6 +1,6 @@
 package com.orcohen.blogrestapi.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -17,6 +17,10 @@ import java.util.Set;
                         "email"
                 })
         })
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
