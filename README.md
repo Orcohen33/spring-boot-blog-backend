@@ -1,10 +1,4 @@
 # Spring-boot blog backend application
-<p>This project is a service for a blog application.</p>
-<p>It is a spring-boot project with a REST API.</p>
-<p>It uses a MySQL database.</p>
-<p>It uses JWT for authentication.</p>
-<p>It uses Spring Security for authorization.</p>
-<p>It uses Spring Data JPA for data access.</p>
 
 [//]: # (Table of Contents)
 <details>
@@ -14,7 +8,28 @@
             <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/dev#about-the-project">About the project</a>
         </li>
         <li>
-            <a href="">Getting started</a>
+            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/dev#about-the-service">About the Service</a>
+        </li>
+        <li>
+            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/dev#technologies">Technologies</a>
+        </li>
+        <li>
+            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/dev#database-configuration">Database configuration</a>
+        </li>
+        <li>
+            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/dev#pre-requisites">Pre-requisites</a>
+        </li>
+        <li>
+            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/dev#how-to-run">How to run</a>
+        </li>
+        <li>
+            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/dev#how-to-test">How to test</a>
+        </li>
+        <li>
+            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/dev#how-to-use">How to use</a>
+        </li>
+        <li>
+            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/dev#how-to-contribute">How to contribute</a>
         </li>
     </ol>
 </details>
@@ -27,15 +42,6 @@ This project was developed as a part of a blog application. It is a REST API tha
 - CRUD operations for comments
 - CRUD operations for users
 - Authentication and authorization using JWT
-
-## About the Service
-The service is a REST API that provides the following features:
-- CRUD operations for posts
-- CRUD operations for comments
-- CRUD operations for users
-- Authentication and authorization using JWT
-
-
 
 
 ## Technologies
@@ -63,7 +69,7 @@ SPRING_DATASOURCE_PASSWORD
 
 
 ## Pre-requisites
-- Java 11
+- Java 17
 - Maven
 - MySQL
 
@@ -93,6 +99,19 @@ java -jar target/blog-rest-api-0.0.1-SNAPSHOT.jar
 
 
 ### How to use
+  To use the endpoints you need to authenticate first.
+  To authenticate you need to send a POST request to http://localhost:8081/api/v1/auth/signin with the following body:
+```
+{
+    "usernameOrEmail" : "your_username",
+    "password" : "your_password"
+}
+```
+  The response will be a JWT token that you need to use in the Authorization header of the requests you want to send.
+    For example, to get all the posts you need to send a GET request to http://localhost:8081/api/v1/posts with the following header:
+```
+Authorization: Bearer <your token>
+```
   You can use the application by sending HTTP requests to the endpoints.
   The endpoints are described in the Swagger UI.
 

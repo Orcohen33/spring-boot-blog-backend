@@ -10,9 +10,9 @@ import com.orcohen.blogrestapi.repository.PostRepository;
 import com.orcohen.blogrestapi.repository.RoleRepository;
 import com.orcohen.blogrestapi.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -30,15 +30,18 @@ public class InitializeDatabase implements ApplicationListener<ApplicationReadyE
     private final RoleRepository roleRepository;
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public InitializeDatabase(UserRepository userRepository,
                               RoleRepository roleRepository,
                               CommentRepository commentRepository,
-                              PostRepository postRepository) {
+                              PostRepository postRepository,
+                              PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.commentRepository = commentRepository;
         this.postRepository = postRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
 //    @Override
@@ -65,7 +68,7 @@ public class InitializeDatabase implements ApplicationListener<ApplicationReadyE
                     .email("admin@admin.com")
                     .name("Admin")
                     .username("admin")
-                    .password("admin")
+                    .password(passwordEncoder.encode("admin"))
                     .build();
             userRepository.save(admin);
             admin.setRoles(Collections.singleton(adminRole));
@@ -74,7 +77,7 @@ public class InitializeDatabase implements ApplicationListener<ApplicationReadyE
                     .email("user@user.com")
                     .name("User")
                     .username("user")
-                    .password("user")
+                    .password(passwordEncoder.encode("user"))
                     .build();
             userRepository.save(user);
             user.setRoles(Collections.singleton(userRole));

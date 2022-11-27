@@ -8,7 +8,6 @@ import com.orcohen.blogrestapi.payload.SignUpRequest;
 import com.orcohen.blogrestapi.security.JwtTokenUtils;
 import com.orcohen.blogrestapi.service.RoleService;
 import com.orcohen.blogrestapi.service.UserService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +25,6 @@ import java.util.Collections;
 
 @RestController
 @RequestMapping("api/v1/auth")
-@RequiredArgsConstructor
 @Slf4j
 public class AuthenticationController {
 
@@ -35,6 +33,18 @@ public class AuthenticationController {
     private final UserService userService;
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
+
+    public AuthenticationController(JwtTokenUtils jwtTokenUtils,
+                                    AuthenticationManager authenticationManager,
+                                    UserService userService,
+                                    RoleService roleService,
+                                    PasswordEncoder passwordEncoder) {
+        this.jwtTokenUtils = jwtTokenUtils;
+        this.authenticationManager = authenticationManager;
+        this.userService = userService;
+        this.roleService = roleService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @PostMapping("/signin")
     public ResponseEntity<String> authenticateUser(@RequestBody SignInRequest signInRequest) {
