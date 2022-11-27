@@ -5,31 +5,31 @@
     <summary>Table of Contents</summary>
     <ol>
         <li>
-            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/dev#about-the-project">About the project</a>
+            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/main#about-the-project">About the project</a>
         </li>
         <li>
-            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/dev#about-the-service">About the Service</a>
+            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/main#about-the-service">About the Service</a>
         </li>
         <li>
-            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/dev#technologies">Technologies</a>
+            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/main#technologies">Technologies</a>
         </li>
         <li>
-            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/dev#database-configuration">Database configuration</a>
+            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/main#database-configuration">Database configuration</a>
         </li>
         <li>
-            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/dev#pre-requisites">Pre-requisites</a>
+            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/main#pre-requisites">Pre-requisites</a>
         </li>
         <li>
-            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/dev#how-to-run">How to run</a>
+            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/main#how-to-run">How to run</a>
         </li>
         <li>
-            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/dev#how-to-test">How to test</a>
+            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/main#how-to-test">How to test</a>
         </li>
         <li>
-            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/dev#how-to-use">How to use</a>
+            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/main#how-to-use">How to use</a>
         </li>
         <li>
-            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/dev#how-to-contribute">How to contribute</a>
+            <a href="https://github.com/Orcohen33/spring-boot-blog-backend/tree/main#how-to-contribute">How to contribute</a>
         </li>
     </ol>
 </details>
