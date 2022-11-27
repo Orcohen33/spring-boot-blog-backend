@@ -12,8 +12,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Table(
-        name = "posts",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"title"})}
+        name = "posts"
 )
 public class Post {
 

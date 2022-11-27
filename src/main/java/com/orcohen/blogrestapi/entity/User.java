@@ -10,12 +10,12 @@ import java.util.Set;
 @Data
 @Table(name = "users",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = {
-                        "username"
-                }),
-                @UniqueConstraint(columnNames = {
-                        "email"
-                })
+//                @UniqueConstraint(columnNames = {
+//                        "username"
+//                }),
+//                @UniqueConstraint(columnNames = {
+//                        "email"
+//                })
         })
 @Builder
 @AllArgsConstructor
@@ -25,9 +25,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false, unique = true)
     private String username;
+    @Column(nullable = false, unique = true)
     private String email;
+    @Column(nullable = false)
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

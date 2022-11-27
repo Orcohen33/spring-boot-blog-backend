@@ -42,6 +42,7 @@ public class CommentController {
         return new ResponseEntity<>(commentService.getCommentByCommentId(postId, commentId), HttpStatus.OK);
     }
     @ApiOperation(value = "Update a comment by id and post id")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @PutMapping("/posts/{postId}/comments/{commentId}")
     public ResponseEntity<CommentResponse> updateComment(
             @PathVariable Long postId,
@@ -50,6 +51,7 @@ public class CommentController {
         return new ResponseEntity<>(commentService.updateComment(postId, commentId, commentRequest), HttpStatus.OK);
     }
     @ApiOperation(value = "Delete a comment by id and post id")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @DeleteMapping("/posts/{postId}/comments/{commentId}")
     public ResponseEntity<String> deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
         commentService.deleteComment(postId, commentId);

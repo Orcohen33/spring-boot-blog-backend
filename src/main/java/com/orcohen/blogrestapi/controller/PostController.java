@@ -26,14 +26,13 @@ public class PostController {
 
     // Create a new post
     @ApiOperation(value = "Create a new post")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @PostMapping
     public ResponseEntity<PostResponse> createPost(@Valid @RequestBody PostRequest postRequest) {
         return new ResponseEntity<>(postService.createPost(postRequest), HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Get all posts")
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
 
     public ResponseEntity<PostPageResponse> getAllPosts(

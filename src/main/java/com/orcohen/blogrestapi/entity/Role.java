@@ -1,8 +1,6 @@
 package com.orcohen.blogrestapi.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -12,11 +10,14 @@ import java.util.Set;
 @Getter
 @ToString
 @Table(name = "roles")
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 20)
+    @Column(length = 20, nullable = false, unique = true)
     private String name;
 
     @ManyToMany(mappedBy = "roles")
