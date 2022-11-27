@@ -41,6 +41,10 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
             throw new UsernameNotFoundException("User not found with username or email : " + usernameOrEmail);
         }
 
+        log.info("[AuthenticationManager] User found : {}", user.getUsername());
+        log.info("[AuthenticationManager] Password matches : {}", passwordEncoder.matches(password, user.getPassword()));
+        log.info("[AuthenticationManager] user.getPassword() enabled : {}", user.getPassword());
+        log.info("[AuthenticationManager] password enabled : {}", password);
         if(!passwordEncoder.matches(password, user.getPassword())) {
             log.info("[AuthenticationManager] Authentication password failed for user : {}", usernameOrEmail);
             throw new UsernameNotFoundException("User not found with username or email : " + usernameOrEmail);
