@@ -94,7 +94,6 @@ java -jar target/blog-rest-api-0.0.1-SNAPSHOT.jar
 
 ### How to test
   You can test the application using Swagger UI. The Swagger UI is available at http://localhost:8081/swagger-ui.html.
-  You can also test the application using Postman. The Postman collection is available at https://www.getpostman.com/collections/1b2b2b2b2b2b2b2b2b2b.
   I've also implemented a controller and integration tests using JUnit and Mockito.
 
 
